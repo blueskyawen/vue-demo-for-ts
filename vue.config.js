@@ -1,6 +1,9 @@
 module.exports = {
-  baseUrl: "/",
-  outputDir: "dist",
+  baseUrl: '/',
+  outputDir: 'dist',
   lintOnSave: true,
-  productionSourceMap: false
-};
+  productionSourceMap: false,
+  devServer: {
+    port: 5000
+  }
+}
