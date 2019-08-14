@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h2 @click="clickMsg" v-local-direc>msg: {{ msg }}</h2>
-    <h3>name: {{myName}} {{myYear}}</h3>
+    <h3>name: {{myName}} {{myYear | transY}}</h3>
     <div class="opers">
       <span @click="addYear">Add Year</span>
     </div>
@@ -13,12 +13,15 @@
     <div>
       <local-compt :num="500"></local-compt>
       <global-compt v-bind:num="1000"></global-compt>
+      <local-compt02 :num="100"></local-compt02>
+      <vue-compt :num="66"></vue-compt>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import vueCompt from './compt.vue'
 
 let localDirec = {
   inserted: function (el : any, binding : any) {
@@ -27,17 +30,17 @@ let localDirec = {
 }
 
 Vue.component('global-compt', {
+  template: '<div><h4>{{name}}: {{num}}</h4></div>',
   props: ['num'],
   data () {
     return {
-      name: 'global组件'
+      name: '全局组件'
     }
-  },
-  template: '<h4>{{name}}: {{num}}</h4>'
+  }
 })
 
 @Component({
-  template: '<div><h4>{{name}}: </h4><div>{{num}}</div></div>',
+  template: '<div><h4>{{name}}: {{num}}</h4></div>',
   props: ['num'],
   data () {
     return {
@@ -47,6 +50,65 @@ Vue.component('global-compt', {
 })
 class localCompt extends Vue {}
 
+let localCompt02 = {
+  props: ['num'],
+  data () {
+    return {
+      name: '局部组件02'
+    }
+  },
+  template: '<div><h3>{{name}}: ##{{num}}</h3></div>'
+}
+
+// 全局混入
+Vue.mixin({
+  data () {
+    return {
+      msg2: '全局混入',
+      numList: [2, 3],
+      site: {
+        name: '腾讯'
+      }
+    }
+  },
+  created: function () {
+    console.log('全局混入 --- created')
+  },
+  methods: {
+    startMix2: function () {
+      console.log('全局混入 --- startMix')
+    }
+  }
+})
+var localMix2 = {
+  data () {
+    return {
+      msg2: 'localMix2',
+      msg3: 'localMix2-msg3',
+      msg4: 'localMix2-msg4',
+      msg5: 'localMix2-msg5',
+      numList: [4, 5, 9],
+      site: {
+        name: '阿里巴巴',
+        url: 'www.alibaba.com',
+        title: '我是阿里巴巴',
+        haha: 'haha localMix2'
+      }
+    }
+  },
+  created: function () {
+    console.log('实例混入: localMix2 --- created')
+  },
+  methods: {
+    startMix: function () {
+      console.log('实例混入: localMix2 --- startMix')
+    },
+    hello: function () {
+      console.log('实例混入: localMix2 --- hello')
+    }
+  }
+}
+
 @Component({
   props: {
     msg: {
@@ -54,7 +116,8 @@ class localCompt extends Vue {}
     }
   },
   directives: { localDirec },
-  components: { 'local-compt': localCompt },
+  components: { 'local-compt': localCompt, localCompt02, vueCompt },
+  mixins: [localMix2],
   data: function () {
     return {
       name: 'vue-ts-HelloWorld',
@@ -71,7 +134,9 @@ class localCompt extends Vue {}
     },
     addYear: function () {
       (this as any).year = (this as any).year + 5
-      this.$emit('yearChange', (this as any).year)
+      this.$emit('yearChange', (this as any).year);
+      (this as any).startMix();
+      (this as any).startMix2()
     }
   },
   computed: {
@@ -84,6 +149,11 @@ class localCompt extends Vue {}
   watch: {
     year: function () {
       this.myYear += this.year
+    }
+  },
+  filters: {
+    transY: function (value: string) {
+      return value + ' Coco'
     }
   }
 })
