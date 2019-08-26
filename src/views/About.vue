@@ -1,8 +1,23 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <div>
+      <AboutMe :msg="'hello about'"></AboutMe>
+    </div>
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import AboutMe from '@/components/AboutMe.vue' // @ is an alias to /src
+
+@Component({
+  components: {
+    AboutMe
+  }
+})
+export default class About extends Vue {
+}
+</script>
 
 <style scoped lang="less">
   .about {
