@@ -20,7 +20,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import Vue from 'vue'
+import Component from 'vue-class-component'
 import vueCompt from './compt.vue'
 
 let localDirec = {
