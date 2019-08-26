@@ -3,13 +3,16 @@
     <h2 @click="clickFunc">msg: {{ msg }}</h2>
     <h2 @click="makeH">name: {{ name }}</h2>
     <h2 @click="setNameNum">msg2: {{msg2}}</h2>
-    <h2>getter msgNameNum: {{msgNameNum}}</h2>
+    <h2 @click="makeClassVar">getter msgNameNum: {{msgNameNum}}</h2>
     <h2>gettter nameNum: {{nameNum}}</h2>
+    <p>getData: {{getData}}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { mixins } from 'vue-class-component'
+import MyMixin from './mixin.js'
 
 @Component({
   props: {
@@ -26,10 +29,18 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
   methods: {
     makeH: function () {
       alert('click - makeH - 2')
+    },
+    makeClassVar: function () {
+      alert('click - makeClassVar - ' + (this as any).msg2)
+    }
+  },
+  computed: {
+    getData () {
+      return this.$data
     }
   }
 })
-export default class AboutMe extends Vue {
+export default class AboutMe extends mixins(MyMixin) {
   name: string = 'name-in-class'
   msg2: string = (this as any).msg + '**' + this.name
 
