@@ -5,6 +5,7 @@
       <span class="gekai">|</span>
       <router-link to="/">Home</router-link>
       <router-link to="/about">About</router-link>
+      <router-link to="/help">Help</router-link>
     </div>
     <router-view/>
   </div>
