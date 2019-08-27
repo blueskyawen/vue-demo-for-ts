@@ -1,18 +1,18 @@
 <template>
   <div class="aboutMe">
-    <h2 @click="clickFunc">msg: {{ msg }}</h2>
-    <h2 @click="makeH">name: {{ name }}</h2>
-    <h2 @click="setNameNum">msg2: {{msg2}}</h2>
-    <h2 @click="makeClassVar">getter msgNameNum: {{msgNameNum}}</h2>
-    <h2>gettter nameNum: {{nameNum}}</h2>
-    <p>getData: {{getData}}</p>
+    <h2 @click="clickFunc">msg = {{ msg }}</h2>
+    <h2 @click="makeH">name = {{ name }}</h2>
+    <h2 @click="setNameNum">msg2 = {{msg2}}</h2>
+    <h2 @click="makeClassVar">get msgNameNum = {{msgNameNum}}</h2>
+    <h2 @click="makeMyMixin">get nameNum = {{nameNum}}</h2>
+    <p @click="makeYourMixin">getData: {{getData}}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
-import MyMixin from './mixin.js'
+import { MyMixin, YourMixin } from './mixin.js'
 
 @Component({
   props: {
@@ -25,6 +25,12 @@ import MyMixin from './mixin.js'
       name: 'name-in-component',
       num: 10
     }
+  },
+  created () {
+    console.log('AboutMe -- created in-component')
+  },
+  mounted () {
+    console.log('AboutMe -- mounted in-component')
   },
   methods: {
     makeH: function () {
@@ -40,7 +46,7 @@ import MyMixin from './mixin.js'
     }
   }
 })
-export default class AboutMe extends mixins(MyMixin) {
+export default class AboutMe extends mixins(YourMixin, MyMixin) {
   name: string = 'name-in-class'
   msg2: string = (this as any).msg + '**' + this.name
 
