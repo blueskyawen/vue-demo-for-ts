@@ -2,9 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import vueLib from 'vue-lib-sh'
+import vcCat from 'vc-shadow-cat'
 
-Vue.use(vueLib)
+Vue.use(vcCat)
 
 Vue.config.productionTip = false
 
