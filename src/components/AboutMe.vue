@@ -55,6 +55,7 @@ export default class AboutMe extends mixins(YourMixin, MyMixin) {
   }
 
   clickFunc (): void {
+    // this.xx优先使用装饰器函数里声明的属性
     alert('clickFunc--' + this.name)
   }
 
@@ -63,6 +64,7 @@ export default class AboutMe extends mixins(YourMixin, MyMixin) {
   }
 
   get msgNameNum () {
+    // this.xx优先使用装饰器函数里声明的属性
     return (this as any).msg + '@' + this.name + '@' + (this as any).num + '@' +
       this.msg2 + '@' + (this as any).me
   }
